@@ -5,7 +5,13 @@ import styles from "./IndexPage.css";
 import { Switch, Route, Redirect, NavLink } from "dva/router";
 import Person from "./person";
 import Goods from "./goods";
-import Shopcart from "./shopcart";
+import dynamic from "dva/dynamic";
+import  app from "../index";
+const Shopcart = dynamic({
+  app,
+  models: () => [import('../models/shopcart')],
+  component: () => import('./shopcart/index'),
+});
 
 export default function IndexPage() {
   return (

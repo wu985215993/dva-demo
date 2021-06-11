@@ -1,32 +1,30 @@
 import React, { useEffect } from "react";
 import { connect } from "dva";
-import {
-  getShopcartDataApi,
-  changeNumApi,
-  delApi,
-} from "../../services/shopcart";
 
 function Shopcart({ list, dispatch }) {
   useEffect(() => {
-    getData();
-  }, []);
-  async function getData() {
-    /* fetch("http://jacklv.cn/shopcart/getShopcartData")
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.code === 1) {
-          dispatch({
-            type: "shopcart/serList",
-            payload: res.data,
-          });
-        }
-      }); */
-    const data = await getShopcartDataApi();
+    // getData();
     dispatch({
-      type: "shopcart/setList",
-      payload: data,
+      type: "shopcart/getData",
     });
-  }
+  }, []);
+  //   async function getData() {
+  //     /* fetch("http://jacklv.cn/shopcart/getShopcartData")
+  //       .then((res) => res.json())
+  //       .then((res) => {
+  //         if (res.code === 1) {
+  //           dispatch({
+  //             type: "shopcart/serList",
+  //             payload: res.data,
+  //           });
+  //         }
+  //       }); */
+  //     const data = await getShopcartDataApi();
+  //     dispatch({
+  //       type: "shopcart/setList",
+  //       payload: data,
+  //     });
+  //   }
   async function changeNum(_id, n) {
     /* fetch("http://jacklv.cn/shopcart/changeNum", {
       method: "POST",
@@ -37,8 +35,15 @@ function Shopcart({ list, dispatch }) {
     }).then(() => {
       getData();
     }); */
-    await changeNumApi({ _id, n });
-    getData();
+    // await changeNumApi({ _id, n });
+    // getData();
+    dispatch({
+      type: "shopcart/changeNum",
+      payload: {
+        _id,
+        n,
+      },
+    });
   }
   async function del(_id) {
     /* fetch("http://jacklv.cn/shopcart/delete?_id=" + _id, {
@@ -46,8 +51,12 @@ function Shopcart({ list, dispatch }) {
     }).then(() => {
       getData();
     }); */
-    await delApi(_id);
-    getData();
+    // await delApi(_id);
+    // getData();
+    dispatch({
+        type: "shopcart/del",
+        payload: _id
+      });
   }
   return (
     <div>
