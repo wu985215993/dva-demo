@@ -1,4 +1,4 @@
-import fetch from 'dva/fetch';
+import fetch from "dva/fetch";
 
 function parseJSON(response) {
   return response.json();
@@ -21,10 +21,30 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options) {
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(data => ({ data }))
-    .catch(err => ({ err }));
+const baseURL = "http://jacklv.cn";
+export default function request(url, options = {}) {
+  if (options.method && options.method.toUpperCase() === "POST") {
+    options.body = JSON.stringify(options.body);
+    options.headers = {
+      "content-type": "application/json",
+    };
+  }
+  return (
+    fetch(baseURL + url, options)
+      /* .then(checkStatus)
+  .then(parseJSON)
+  .then(data => ({ data }))
+  .catch(err => ({ err })); */
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.code === 1) {
+          return res.data;
+        } else {
+          return Promise.reject(res);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+      })
+  );
 }

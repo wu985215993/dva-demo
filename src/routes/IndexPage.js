@@ -5,6 +5,7 @@ import styles from "./IndexPage.css";
 import { Switch, Route, Redirect, NavLink } from "dva/router";
 import Person from "./person";
 import Goods from "./goods";
+import Shopcart from "./shopcart";
 
 export default function IndexPage() {
   return (
@@ -21,6 +22,11 @@ export default function IndexPage() {
               商品管理
             </NavLink>
           </div>
+          <div>
+            <NavLink to="/home/shopcart" activeStyle={{ color: "red" }}>
+              购物车
+            </NavLink>
+          </div>
         </div>
       </div>
       <div className={styles.rightBox}>
@@ -28,6 +34,7 @@ export default function IndexPage() {
           <Redirect exact from="/home" to="/home/person" />
           <Route path="/home/person" component={Person} />
           <Route path="/home/goods" component={Goods} />
+          <Route path="/home/shopcart" component={Shopcart} />
         </Switch>
       </div>
     </div>
